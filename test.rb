@@ -2,9 +2,9 @@
 require 'lib/fragilestring.rb'
 
 if ARGV.size > 0
-  case ARGV[1]
+  case ARGV[0]
   when 'reset'
-    Pit.set("fragilestring")
+    Pit.set("fragilestring", :data => {})
   when 'change'
     ENV["USERNAME"] = rand.to_s
   end
