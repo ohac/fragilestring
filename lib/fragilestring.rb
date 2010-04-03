@@ -68,5 +68,6 @@ module FragileString
     digest = Digest::SHA1.hexdigest(str)
     value = encrypt(value, str)
     Pit.set("fragilestring", :data => { :digest => digest, :value => value })
+    value
   end
 end
