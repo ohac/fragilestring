@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'pit'
 require 'digest/sha1'
+require 'openssl'
 
 module FragileString
   PREFIX = "fragilestring"
@@ -32,11 +33,23 @@ module FragileString
       "PATH",
     ].map{|k|ENV[k]}.join
   end
-  def self.encrypt(value, str)
-    value # TODO
+  def self.encrypt(invalue, key)
+    aes = OpenSSL::Cipher::Cipher.new("AES-256-CBC")
+    aes.encrypt
+    aes.pkcs5_keyivgen(key)
+    value = ""
+    value << aes.update(invalue)
+    value << aes.final
+    value
   end
-  def self.decrypt(value, str)
-    value # TODO
+  def self.decrypt(invalue, key)
+    aes = OpenSSL::Cipher::Cipher.new("AES-256-CBC")
+    aes.decrypt
+    aes.pkcs5_keyivgen(key)
+    value = ""
+    value << aes.update(invalue)
+    value << aes.final
+    value
   end
   def self.get
     data = Pit.get("fragilestring")
