@@ -10,6 +10,7 @@ if ARGV.size > 0
   end
 end
 thesecret = FragileString.get do
+  p :changed
   FragileString.put('thesecret')
 end
 p thesecret

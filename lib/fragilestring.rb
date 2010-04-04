@@ -59,7 +59,7 @@ module FragileString
       value = data[:value]
       valuedigest = data[:valuedigest]
       v = decrypt(value, str)
-      if valuedigest == Digest::SHA1.hexdigest(v)
+      if valuedigest == Digest::SHA1.hexdigest(str + v)
         v
       else
         yield
@@ -71,7 +71,7 @@ module FragileString
   def self.put(invalue)
     str = getstr
     digest = Digest::SHA1.hexdigest(str)
-    valuedigest = Digest::SHA1.hexdigest(invalue)
+    valuedigest = Digest::SHA1.hexdigest(str + invalue)
     value = encrypt(invalue, str)
     Pit.set("fragilestring", :data => {
       :digest => digest, :value => value, :valuedigest => valuedigest
